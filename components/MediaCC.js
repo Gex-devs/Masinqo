@@ -14,6 +14,7 @@ export default class MediaCC extends React.Component {
   
   setupPlayer = async () => {
     console.log("Player Setup Called")
+    console.log("test");
     try {
       await TrackPlayer.setupPlayer();
       TrackPlayer.add(this.track2);
