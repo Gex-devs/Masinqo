@@ -7,7 +7,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
 export default class MediaCC extends React.Component {
-
+  
   track2 = {
     url: require('../dev_assets/song.mp3'), // Load media from the app bundle
     title: 'Coelacanth I',
@@ -20,10 +20,19 @@ export default class MediaCC extends React.Component {
     console.log("Player Setup Called")
     try {
       await TrackPlayer.setupPlayer();
-      TrackPlayer.add(this.track2);
+      if (this.props.currentTrack) {
+        TrackPlayer.add({
+          url: this.props.currentTrack.path,
+          title: this.props.currentTrack.filename,
+          artist: this.props.currentTrack.author,
+          artwork: this.props.currentTrack.image,
+          duration: this.props.currentTrack.duration,
+        });
+      }
     } catch (error) { console.log(error) }
 
   }
+
   Go = async () => {
     const state = await TrackPlayer.getState();
     console.log(state)
@@ -51,7 +60,6 @@ export default class MediaCC extends React.Component {
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
           paddingLeft:7
-          
         }
         }>
         <Image
@@ -70,7 +78,6 @@ export default class MediaCC extends React.Component {
           flexDirection: 'row',
           justifyContent: 'space-between',
           justifyitems:'center',
-
           backgroundColor:"#94430F",
           flex:1,
           marginLeft:10,

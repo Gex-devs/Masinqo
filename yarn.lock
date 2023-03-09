@@ -5858,6 +5858,11 @@ react-native-gradle-plugin@^0.71.16:
   resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.16.tgz"
   integrity sha512-H2BjG2zk7B7Wii9sXvd9qhCVRQYDAHSWdMw9tscmZBqSP62DkIWEQSk4/B2GhQ4aK9ydVXgtqR6tBeg3yy8TSA==
 
+react-native-media-meta@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.npmjs.org/react-native-media-meta/-/react-native-media-meta-0.0.11.tgz"
+  integrity sha512-8pZA7wCoscLFJZRwd8GAYwsiuwc2XTYDcZm3cp9SN2wnKTnE2n1AW4AvBu0LGc1hyHYGLKPN4MJ6st0rY7H1vA==
+
 react-native-track-player@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/react-native-track-player/-/react-native-track-player-3.2.0.tgz"
