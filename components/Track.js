@@ -1,9 +1,14 @@
 import React from 'react';
 import { Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Track = ({ name, artist, cover ,path, onPress}) => {
+const Track = ({ name, artist, cover ,id,path,duration, onPress }) => {
+
+  const handlePress = () => {
+    onPress(name, artist, cover ,id,path,duration,);
+  }
+
   return (
-    <TouchableOpacity style={styles.container} onPress={() => onPress(path)}>
+    <TouchableOpacity style={styles.container} onPress ={handlePress}>
       {cover && <Image style={styles.cover} source={{ uri: `data:image/jpeg;base64,${cover}` }} />}
       <Text style={styles.title}>{name}</Text>
       <Text style={styles.artist}>{artist}</Text>

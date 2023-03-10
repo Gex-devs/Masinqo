@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
@@ -26,8 +26,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { MediaCC } from './components/MediaCC';
 import TrackList from './components/TrackList';
+import MediaCC from './components/MediaCC';
 
 
 function App(): JSX.Element {
@@ -38,12 +38,24 @@ function App(): JSX.Element {
   };
 
 
+  const [audioFiles, setAudioFiles] = useState([]);
+
+  const handleAudioFilesUpdate = (newAudioFiles) => {
+    setAudioFiles(newAudioFiles);
+    //console.log(newAudioFiles)
+  };
+
+
+
+  // Don't render unless getAudioFiles is complete
   return (
     <View style={styles.container}>
-      <TrackList />
-      <View style={styles.mediaOverlay}>
-        <MediaCC/>
-      </View>
+      <TrackList onAudioFilesUpdate={handleAudioFilesUpdate} />
+        {audioFiles.length > 0 && (
+          <View style={styles.mediaOverlay}>
+            <MediaCC audioFiles={audioFiles}/>
+          </View>
+        )}
     </View>
 
   );
