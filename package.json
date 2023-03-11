@@ -17,6 +17,8 @@
     "react": "18.2.0",
     "react-native": "0.71.4",
     "react-native-fs": "^2.20.0",
+    "react-native-image-base64": "^0.1.4",
+    "react-native-media-meta": "^0.0.11",
     "react-native-track-player": "^3.2.0"
   },
   "devDependencies": {
