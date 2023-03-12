@@ -1,11 +1,18 @@
-import React from 'react';
+import React ,{useState}from 'react';
 import { Text, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
+
 
 const Track = ({ name, artist, cover, id, path, duration, onPress }) => {
 
   const handlePress = () => {
     onPress(name, artist, cover, id, path, duration,);
   }
+  const [visible, setVisible] = useState(false);
+
+  const hideMenu = () => setVisible(false);
+
+  const showMenu = () => setVisible(true);
 
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>
@@ -24,11 +31,27 @@ const Track = ({ name, artist, cover, id, path, duration, onPress }) => {
         <Text style={styles.title}>{name}</Text>
         <Text style={styles.artist}>{artist}</Text>
       </View>
+      <Menu
+      //https://www.npmjs.com/package/react-native-material-menu
+      style={styles.kebabMenu}
+        visible={visible}
+        anchor={<Text onPress={showMenu}>Show menu</Text>}
+        onRequestClose={hideMenu}
+      >
+        <MenuItem onPress={hideMenu}>Menu item 1</MenuItem>
+        <MenuItem onPress={hideMenu}>Menu item 2</MenuItem>
+        <MenuItem disabled>Disabled item</MenuItem>
+        <MenuDivider />
+        <MenuItem onPress={hideMenu}>Menu item 4</MenuItem>
+      </Menu>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  kebabMenu:{
+    borderRadius:15
+  },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
