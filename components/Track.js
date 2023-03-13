@@ -1,4 +1,4 @@
-import React ,{useState}from 'react';
+import React, { useState } from 'react';
 import { Text, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 
@@ -32,12 +32,17 @@ const Track = ({ name, artist, cover, id, path, duration, onPress }) => {
         <Text style={styles.artist}>{artist}</Text>
       </View>
       <Menu
-      //https://www.npmjs.com/package/react-native-material-menu
-      style={styles.kebabMenu}
+        //https://www.npmjs.com/package/react-native-material-menu
+        style={styles.kebabMenu}
         visible={visible}
-        anchor={<Text onPress={showMenu}>Show menu</Text>}
-        onRequestClose={hideMenu}
-      >
+        anchor={
+        <TouchableOpacity onPress={showMenu}>
+          <View style={styles.button_icon}>
+            <Image source={require("../assets/MenuVertical.png")} />
+          </View>
+        </TouchableOpacity>}
+        onRequestClose={hideMenu
+        }>
         <MenuItem onPress={hideMenu}>Menu item 1</MenuItem>
         <MenuItem onPress={hideMenu}>Menu item 2</MenuItem>
         <MenuItem disabled>Disabled item</MenuItem>
@@ -49,8 +54,8 @@ const Track = ({ name, artist, cover, id, path, duration, onPress }) => {
 };
 
 const styles = StyleSheet.create({
-  kebabMenu:{
-    borderRadius:15
+  kebabMenu: {
+    borderRadius: 15
   },
   container: {
     flexDirection: 'row',
@@ -58,11 +63,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 4,
     paddingHorizontal: 10,
-    backgroundColor: "#841584",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    borderBottomRightRadius:10,
-    borderBottomLeftRadius:10,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   iconContainer: {
     marginRight: 10,
@@ -85,6 +89,9 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: 'contain',
   },
+  button_icon:{
+    
+  }
 });
 
 

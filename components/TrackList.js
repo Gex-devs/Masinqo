@@ -110,8 +110,8 @@ export default class TrackList extends React.Component {
     }
     render() {
         return (
-            <SafeAreaView style={this.styles.container}>
-                <ScrollView style={this.styles.scrollView} contentInsetAdjustmentBehavior="automatic">
+            <SafeAreaView style={this.styles.container} >
+                <ScrollView style={this.styles.scrollView} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
                     {this.state.audioFiles.map((audioFile, index) => (
                         <Track
                             key={index}
@@ -125,7 +125,7 @@ export default class TrackList extends React.Component {
                         />
                     ))}
                 </ScrollView>
-                <View style={{ height: 40 }} />
+                <View style={{ height: 65 }} />
             </SafeAreaView>
         );
     };
