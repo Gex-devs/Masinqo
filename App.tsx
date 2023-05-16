@@ -28,6 +28,7 @@ import {
 
 import TrackList from './components/TrackList';
 import MediaCC from './components/MediaCC';
+import analytics from '@react-native-firebase/analytics';
 
 
 function App(): JSX.Element {

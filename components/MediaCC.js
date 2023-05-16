@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View, Image, StyleSheet } from 'react-native';
 import TrackPlayer, { State, Event, useTrackPlayerEvents, useProgress } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
+import analytics from '@react-native-firebase/analytics';
 
 
 const MediaCC = ({ audioFiles }) => {
@@ -72,13 +73,21 @@ const MediaCC = ({ audioFiles }) => {
   }
 
   const Go = async () => {
+    
+    await analytics().logEvent('basket', {
+      id: 3745092,
+      item: 'mens grey t-shirt',
+      description: ['round neck', 'long sleeved'],
+      size: 'L',
+    })
     const state = await TrackPlayer.getState();
     console.log(state);
     if (state === State.Playing) {
       TrackPlayer.pause();
     } else if (state === State.Paused) {
       TrackPlayer.play();
-    } else {
+    } 
+    else {
       TrackPlayer.play();
     }
   };
