@@ -67,11 +67,12 @@ local.properties
 /android/*
 !/android/README.md
 
-# Node
+# Node & yarn
 node_modules
 *.log
 .nvm
 package-lock.json
+.yarn
 
 # OS X
 .DS_Store

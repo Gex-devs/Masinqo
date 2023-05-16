@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View, Image, StyleSheet } from 'react-native';
 import TrackPlayer, { State, Event, useTrackPlayerEvents, useProgress } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
-import analytics from '@react-native-firebase/analytics';
+
 
 
 const MediaCC = ({ audioFiles }) => {
+
+  const { position, duration } = useProgress(1000); // Update every second
+  const [elapsedTime, setElapsedTime] = useState("0");
+  const [remainingTime, setRemainingTime] = useState("0");
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   // Test Track
   const track2 = {
@@ -47,10 +52,34 @@ const MediaCC = ({ audioFiles }) => {
 
 
 
+
+
   useEffect(() => {
     // update the parent component on track change
-    setupPlayer();
-  }, []);
+    if (!isPlayerReady) {
+      setupPlayer();
+      setIsPlayerReady(true);
+    }
+
+    // Calculate elapsed time
+    minutes = Math.floor(position / 60);
+    elapsed = Math.floor(position % 60);
+
+    formattedMinutes = minutes >= 10 ? minutes : `0${minutes}`;
+    formattedSeconds = String(elapsed).padStart(2, "0");
+
+    setElapsedTime(`${formattedMinutes}:${formattedSeconds}`);
+
+
+    // Calculate remaining time
+    minutes = Math.floor((duration - position) / 60);
+    remaining = Math.floor((duration - position) % 60);
+    formattedMinutes = minutes >= 10 ? minutes : `0${minutes}`;
+    formattedSeconds = String(remaining).padStart(2, "0");
+    setRemainingTime(`${formattedMinutes}:${formattedSeconds}`);
+
+
+  }, [isPlayerReady, position, duration]);
 
 
 
@@ -73,20 +102,21 @@ const MediaCC = ({ audioFiles }) => {
   }
 
   const Go = async () => {
-    
-    await analytics().logEvent('basket', {
-      id: 3745092,
-      item: 'mens grey t-shirt',
-      description: ['round neck', 'long sleeved'],
-      size: 'L',
-    })
+
+    // await analytics().logEvent('basket', {
+    //   id: 3745092,
+    //   item: 'mens grey t-shirt',
+    //   description: ['round neck', 'long sleeved'],
+    //   size: 'L',
+    // })
     const state = await TrackPlayer.getState();
     console.log(state);
+
     if (state === State.Playing) {
       TrackPlayer.pause();
     } else if (state === State.Paused) {
       TrackPlayer.play();
-    } 
+    }
     else {
       TrackPlayer.play();
     }
@@ -130,7 +160,7 @@ const MediaCC = ({ audioFiles }) => {
       alignItems: 'center',  // center the child components vertically
       paddingHorizontal: 20,  // add horizontal padding
       paddingTop: 20,  // add top padding
-      paddingLeft:10
+      paddingLeft: 10
     },
     artwork: {
       width: 100,
@@ -143,12 +173,12 @@ const MediaCC = ({ audioFiles }) => {
       justifyitems: 'center',
       backgroundColor: '#94430F',
       flex: 1,
-      width:405,
-      marginLeft:-4,
+      width: 405,
+      marginLeft: -4,
       marginTop: 40,
       paddingLeft: 20,
       paddingRight: 20,
-      borderRadius:40
+      borderRadius: 40
     },
     button_icon: {
       justifyContent: "center",
@@ -156,7 +186,8 @@ const MediaCC = ({ audioFiles }) => {
     },
     play_button: {
       justifyContent: "center",
-    }
+    },
+
   })
   return (
     <View
@@ -179,12 +210,22 @@ const MediaCC = ({ audioFiles }) => {
         // Slider doesn't work unless height is at very least 10
         style={{ width: 400, height: 10, marginBottom: 30, marginTop: 10 }}
         minimumValue={0}
-        maximumValue={100}
+        // Set max value to the amount of second the track has
+        maximumValue={203 }
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
         value={progress.position}
         onValueChange={handleSliderChange}
       />
+      <View style={{ flexDirection: "row", alignItems: "center"}}>
+        <View style={{ flex: 1 }}>
+          <Text style={{ textAlign: "left" }}>{elapsedTime}</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={{ textAlign: "right" }}>{remainingTime}</Text>
+        </View>
+      </View>
+
       <View
         style={styles.mediaController}>
         <TouchableOpacity onPress={Prev}>
@@ -194,7 +235,7 @@ const MediaCC = ({ audioFiles }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={Go}>
           <View style={styles.play_button}>
-            <Image source={require('../assets/Pause.png')}  />
+            <Image source={require('../assets/Pause.png')} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={Next}>
