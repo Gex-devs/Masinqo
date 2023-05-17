@@ -28,12 +28,13 @@ import {
 
 import TrackList from './components/TrackList';
 import MediaCC from './components/MediaCC';
-import analytics from '@react-native-firebase/analytics';
+
 
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
+  
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -51,6 +52,7 @@ function App(): JSX.Element {
   // Don't render unless getAudioFiles is complete
   return (
     <View style={styles.container}>
+      <Text>test</Text>
       <TrackList onAudioFilesUpdate={handleAudioFilesUpdate} />
         {audioFiles.length > 0 && (
           <View style={styles.mediaOverlay}>

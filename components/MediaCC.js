@@ -5,13 +5,19 @@ import Slider from '@react-native-community/slider';
 
 
 
+
 const MediaCC = ({ audioFiles }) => {
 
   const { position, duration } = useProgress(1000); // Update every second
   const [elapsedTime, setElapsedTime] = useState("0");
   const [remainingTime, setRemainingTime] = useState("0");
   const [isPlayerReady, setIsPlayerReady] = useState(false);
+  
+  const [currentArtwork, setCurrentArtwork] = useState(null);
+  const [currenTitle, setCurrentTitle] = useState("");
+  const [currenTitleDuration, setcurrenTitleDuration] = useState(0);
 
+  const [playPauseImage, setplayPauseImage] = useState(require("../assets/Pause.png"));
   // Test Track
   const track2 = {
     url: require('../dev_assets/song.mp3'),
@@ -24,8 +30,6 @@ const MediaCC = ({ audioFiles }) => {
 
 
 
-  const [currentArtwork, setCurrentArtwork] = useState(null);
-  const [currenTitle, setCurrentTitle] = useState("");
 
 
   async function setupPlayer() {
@@ -87,9 +91,10 @@ const MediaCC = ({ audioFiles }) => {
     if (event.type === Event.PlaybackTrackChanged && event.nextTrack != null) {
       const track = await TrackPlayer.getTrack(event.nextTrack);
       const { title } = track || {};
-      console.log(title)
-      setCurrentTitle(title)
-      getCurrentTrackArtwork()
+      console.log(title);
+      setCurrentTitle(title);
+      setcurrenTitleDuration(track.duration);
+      getCurrentTrackArtwork();
     }
   });
 
@@ -102,20 +107,15 @@ const MediaCC = ({ audioFiles }) => {
   }
 
   const Go = async () => {
-
-    // await analytics().logEvent('basket', {
-    //   id: 3745092,
-    //   item: 'mens grey t-shirt',
-    //   description: ['round neck', 'long sleeved'],
-    //   size: 'L',
-    // })
     const state = await TrackPlayer.getState();
     console.log(state);
 
     if (state === State.Playing) {
       TrackPlayer.pause();
+      setplayPauseImage(require('../assets/PlayButtonCircled.png'));
     } else if (state === State.Paused) {
       TrackPlayer.play();
+      setplayPauseImage(require('../assets/Pause.png'));
     }
     else {
       TrackPlayer.play();
@@ -175,10 +175,11 @@ const MediaCC = ({ audioFiles }) => {
       flex: 1,
       width: 405,
       marginLeft: -4,
-      marginTop: 40,
+      marginTop: 39,
       paddingLeft: 20,
       paddingRight: 20,
-      borderRadius: 40
+      borderRadius: 40,
+      bottom:11
     },
     button_icon: {
       justifyContent: "center",
@@ -208,10 +209,9 @@ const MediaCC = ({ audioFiles }) => {
       </View>
       <Slider
         // Slider doesn't work unless height is at very least 10
-        style={{ width: 400, height: 10, marginBottom: 30, marginTop: 10 }}
+        style={{ width: 400, height: 10, marginBottom: 10, marginTop: 25 }}
         minimumValue={0}
-        // Set max value to the amount of second the track has
-        maximumValue={203 }
+        maximumValue={currenTitleDuration}
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
         value={progress.position}
@@ -219,10 +219,10 @@ const MediaCC = ({ audioFiles }) => {
       />
       <View style={{ flexDirection: "row", alignItems: "center"}}>
         <View style={{ flex: 1 }}>
-          <Text style={{ textAlign: "left" }}>{elapsedTime}</Text>
+          <Text style={{ textAlign: "left",color:"white" }}>{elapsedTime}</Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={{ textAlign: "right" }}>{remainingTime}</Text>
+          <Text style={{ textAlign: "right",color:"white" }}>{remainingTime}</Text>
         </View>
       </View>
 
@@ -235,7 +235,7 @@ const MediaCC = ({ audioFiles }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={Go}>
           <View style={styles.play_button}>
-            <Image source={require('../assets/Pause.png')} />
+            <Image source={playPauseImage} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={Next}>
