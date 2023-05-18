@@ -2,4 +2,4 @@
 
 React Native based Music player
 
-![](preview.png)
+![alt text](preview.png)
