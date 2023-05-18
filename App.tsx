@@ -16,6 +16,7 @@ import {
   useColorScheme,
   View,
   Button,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {
@@ -28,7 +29,7 @@ import {
 
 import TrackList from './components/TrackList';
 import MediaCC from './components/MediaCC';
-
+import TopBar from './components/TopBar';
 
 
 function App(): JSX.Element {
@@ -51,17 +52,17 @@ function App(): JSX.Element {
 
   // Don't render unless getAudioFiles is complete
   return (
-    <View style={styles.container}>
-      <Text>test</Text>
+    <KeyboardAvoidingView style={styles.container}>
+      <TopBar />
       <TrackList onAudioFilesUpdate={handleAudioFilesUpdate} />
-        {audioFiles.length > 0 && (
-          <View style={styles.mediaOverlay}>
-            <MediaCC audioFiles={audioFiles}/>
-          </View>
-        )}
-    </View>
-
+      {audioFiles.length > 0 && (
+        <View style={styles.mediaOverlay}>
+          <MediaCC audioFiles={audioFiles} />
+        </View>
+      )}
+    </KeyboardAvoidingView>
   );
+  
 }
 
 const styles = StyleSheet.create({

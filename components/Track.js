@@ -43,7 +43,7 @@ const Track = ({ name, artist, cover, id, path, duration, onPress }) => {
         </TouchableOpacity>}
         onRequestClose={hideMenu
         }>
-        <MenuItem onPress={hideMenu}>Menu item 1</MenuItem>
+        <MenuItem onPress={hideMenu}>Delete</MenuItem>
         <MenuItem onPress={hideMenu}>Menu item 2</MenuItem>
         <MenuItem disabled>Disabled item</MenuItem>
         <MenuDivider />

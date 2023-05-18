@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View, Image, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, View, Image, StyleSheet,KeyboardAvoidingView } from 'react-native';
 import TrackPlayer, { State, Event, useTrackPlayerEvents, useProgress } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
 
@@ -17,15 +17,16 @@ const MediaCC = ({ audioFiles }) => {
   const [currenTitle, setCurrentTitle] = useState("");
   const [currenTitleDuration, setcurrenTitleDuration] = useState(0);
 
-  const [playPauseImage, setplayPauseImage] = useState(require("../assets/Pause.png"));
+  const [playPauseImage, setplayPauseImage] = useState(require("../assets/PlayButtonCircled.png"));
+
   // Test Track
-  const track2 = {
-    url: require('../dev_assets/song.mp3'),
-    title: 'Coelacanth I',
-    artist: 'demesa',
-    artwork: require('../assets/cover.jpeg'),
-    duration: 143,
-  };
+  // const track2 = {
+  //   url: require('../dev_assets/song.mp3'),
+  //   title: 'Coelacanth I',
+  //   artist: 'demesa',
+  //   artwork: require('../assets/cover.jpeg'),
+  //   duration: 143,
+  // };
 
 
 
@@ -83,6 +84,7 @@ const MediaCC = ({ audioFiles }) => {
     setRemainingTime(`${formattedMinutes}:${formattedSeconds}`);
 
 
+
   }, [isPlayerReady, position, duration]);
 
 
@@ -97,6 +99,8 @@ const MediaCC = ({ audioFiles }) => {
       getCurrentTrackArtwork();
     }
   });
+
+
 
   async function getCurrentTrackArtwork() {
     const trackId = await TrackPlayer.getCurrentTrack();
@@ -125,13 +129,13 @@ const MediaCC = ({ audioFiles }) => {
 
   const Next = async () => {
     await TrackPlayer.skipToNext();
-
+    await TrackPlayer.play();
 
   }
 
   const Prev = async () => {
     await TrackPlayer.skipToPrevious();
-
+    await TrackPlayer.play();
   }
 
   const progress = useProgress();
@@ -191,7 +195,7 @@ const MediaCC = ({ audioFiles }) => {
 
   })
   return (
-    <View
+    <KeyboardAvoidingView
       style={styles.Container}>
       <View style={styles.Image_Title}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -244,7 +248,7 @@ const MediaCC = ({ audioFiles }) => {
           </View>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
