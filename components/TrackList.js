@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, StatusBar, SafeAreaView } from 'react-native';
+import { StyleSheet, ScrollView, View, SafeAreaView } from 'react-native';
 import RNFS from 'react-native-fs';
 import MediaMeta from 'react-native-media-meta';
 import Track from './Track';
@@ -9,9 +9,7 @@ export default class TrackList extends React.Component {
 
     state = {
         audioFiles: [
-
             /*
-                        Multi Track Test
             { name: 'Track 1', artist: 'Artist 1', cover: null },
             { name: 'Track 2', artist: 'Artist 2', cover: null },
             { name: 'Track 3', artist: 'Artist 3', cover: null },
@@ -23,10 +21,7 @@ export default class TrackList extends React.Component {
             { name: 'Track 9', artist: 'Artist 9', cover: null },*/
 
         ],
-
         selectedTrack: null
-
-
     }
 
     getAudioFiles = async () => {
@@ -64,9 +59,11 @@ export default class TrackList extends React.Component {
 
     styles = StyleSheet.create({
         container: {
-            flex: 1,
-            paddingTop: StatusBar.currentHeight,
+            flex:1,
             backgroundColor: '#2D2A2A',
+            marginTop:67,
+            borderTopLeftRadius:20,
+            borderTopRightRadius:20,
         },
         scrollView: {
             marginHorizontal: 20,
@@ -93,9 +90,11 @@ export default class TrackList extends React.Component {
     handleTrackPress = async (name, artist, cover ,id,path,duration) => {
         const track = await TrackPlayer.getTrack(id);
         console.log(id)
+        console.log(name)
         if (track) {
             await TrackPlayer.skip(id);
             console.log("track found, Playing")
+            await TrackPlayer.play(id)
         } else {
             // Will add the File the track is not in the list
             console.log("not in list");
@@ -111,14 +110,14 @@ export default class TrackList extends React.Component {
     }
     render() {
         return (
-            <SafeAreaView style={this.styles.container}>
-                <ScrollView style={this.styles.scrollView} contentInsetAdjustmentBehavior="automatic">
+            <SafeAreaView style={this.styles.container} >
+                <ScrollView style={this.styles.scrollView} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
                     {this.state.audioFiles.map((audioFile, index) => (
                         <Track
                             key={index}
                             name={audioFile.name}
                             artist={audioFile.artist}
-                            over={audioFile.cover}
+                            cover={audioFile.cover}
                             id={audioFile.id}
                             path={audioFile.path}
                             duration={audioFile.duration}
@@ -126,6 +125,7 @@ export default class TrackList extends React.Component {
                         />
                     ))}
                 </ScrollView>
+                <View style={{ height: 65 }} />
             </SafeAreaView>
         );
     };
