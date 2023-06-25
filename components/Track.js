@@ -6,7 +6,7 @@ import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 const Track = ({ name, artist, cover, id, path, duration, onPress }) => {
 
   const handlePress = () => {
-    onPress(name, artist, cover, id, path, duration,);
+    onPress(name, artist, cover, id, path, duration);
   }
   const [visible, setVisible] = useState(false);
 

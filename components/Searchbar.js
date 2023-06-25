@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   button: {
-
+    
   },
   buttonText: {
     color: 'blue',

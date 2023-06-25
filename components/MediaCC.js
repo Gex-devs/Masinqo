@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View, Image, StyleSheet,KeyboardAvoidingView } from 'react-native';
 import TrackPlayer, { State, Event, useTrackPlayerEvents, useProgress } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
+import { create } from 'react-test-renderer';
 
 
 
 
-const MediaCC = ({ audioFiles }) => {
+const MediaCC = ({  }) => {
 
   const { position, duration } = useProgress(1000); // Update every second
   const [elapsedTime, setElapsedTime] = useState("0");
@@ -41,15 +42,15 @@ const MediaCC = ({ audioFiles }) => {
     } catch (error) {
       console.log(error);
     }
-    for (files of audioFiles) {
-      await TrackPlayer.add({
-        url: files.path,
-        title: files.name,
-        artist: files.artist,
-        artwork: files.cover,
-        duration: files.duration,
-      });
-    }
+    // for (files of audioFiles) {
+    //   await TrackPlayer.add({
+    //     url: files.path,
+    //     title: files.name,
+    //     artist: files.artist,
+    //     artwork: files.cover,
+    //     duration: files.duration,
+    //   });
+    // }
     //TrackPlayer.add(track2)
 
 
@@ -144,7 +145,7 @@ const MediaCC = ({ audioFiles }) => {
     await TrackPlayer.seekTo(value);
   };
 
-  const styles = StyleSheet.create({
+  const activeStyle = StyleSheet.create({
     title: {
       color: '#FFFFFF',
       fontSize: 18,
@@ -192,22 +193,27 @@ const MediaCC = ({ audioFiles }) => {
     play_button: {
       justifyContent: "center",
     },
-
   })
+
+  const inactiveStlye = StyleSheet.create({
+    
+  })
+
+
   return (
     <KeyboardAvoidingView
-      style={styles.Container}>
-      <View style={styles.Image_Title}>
+      style={activeStyle.Container}>
+      <View style={activeStyle.Image_Title}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {currentArtwork === `data:image/jpeg;base64,${undefined}` ? (
-            <Image source={require('../assets/temp.png')} style={styles.artwork} />
+            <Image source={require('../assets/temp.png')} style={activeStyle.artwork} />
           ) : (
             <Image
               source={{ uri: currentArtwork }}
-              style={styles.artwork}
+              style={activeStyle.artwork}
             />
           )}
-          <Text style={styles.title}>{currenTitle}</Text>
+          <Text style={activeStyle.title}>{currenTitle}</Text>
 
         </View>
       </View>
@@ -231,19 +237,19 @@ const MediaCC = ({ audioFiles }) => {
       </View>
 
       <View
-        style={styles.mediaController}>
+        style={activeStyle.mediaController}>
         <TouchableOpacity onPress={Prev}>
-          <View style={styles.button_icon}>
+          <View style={activeStyle.button_icon}>
             <Image source={require("../assets/fastprev.png")} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={Go}>
-          <View style={styles.play_button}>
+          <View style={activeStyle.play_button}>
             <Image source={playPauseImage} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={Next}>
-          <View style={styles.button_icon}>
+          <View style={activeStyle.button_icon}>
             <Image source={require("../assets/FastForward.png")} />
           </View>
         </TouchableOpacity>

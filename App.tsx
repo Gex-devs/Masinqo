@@ -30,12 +30,14 @@ import {
 import TrackList from './components/TrackList';
 import MediaCC from './components/MediaCC';
 import TopBar from './components/TopBar';
-
+import PageSelector from './components/PageSelector';
+import PageHolder from './components/PageHolder';
+import { AudioProvider } from './components/AudioContext';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -48,24 +50,29 @@ function App(): JSX.Element {
     //console.log(newAudioFiles)
   };
 
+  const PageHandler = (value: any) => {
+    console.log(value);
+  };
+
 
 
   // Don't render unless getAudioFiles is complete
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <TopBar />
-      <TrackList onAudioFilesUpdate={handleAudioFilesUpdate} />
-      {audioFiles.length > 0 && (
+    <AudioProvider>
+      <KeyboardAvoidingView style={styles.container}>
+        <PageSelector onPageChange={PageHandler} />
+        <PageHolder />
         <View style={styles.mediaOverlay}>
-          <MediaCC audioFiles={audioFiles} />
+          <MediaCC />
         </View>
-      )}
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </AudioProvider>
   );
-  
+
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
   },
